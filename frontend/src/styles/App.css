@@ -1,7 +1,6 @@
 .App {
     font-family: sans-serif;
     text-align: center;
-    /* max-width: 540px; */
     margin: 0 auto;
     height: 100%;
 }
@@ -18,8 +17,6 @@ body {
 }
 
 #root {
-    /* flex-direction: column; */
-    /* align-items: center; */
     height: 100%;
     background: linear-gradient(153deg, #5c114c, #a31e30, #ba2121, #da5b12);
     background-size: cover;
@@ -37,10 +34,33 @@ body {
     appearance: none;
     border: 0;
     border-radius: 5px;
-    background: #4676d7;
-    color: #fff;
+    background: #ba2121;
+    color: rgb(255, 255, 255);
     padding: 8px 16px;
-    font-size: 16px;
+    font-size: 20px;
+}
+
+.btnSocket > span {
+    position: relative;
+    z-index: 1;
+}
+
+.btnSocket::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    background: #5c114c;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.btnSocket:hover::after {
+    opacity: 1;
 }
 
 .result-button {
@@ -48,20 +68,31 @@ body {
     left: 0;
     right: 0;
     top: 8%;
+    z-index: 5;
 }
 
-.block-result-image {
+.main-content {
     margin-left: auto;
     margin-right: auto;
     display: block;
     position: absolute;
-    top: 13%;
+    top: 7%;
     bottom: 0;
     right: 0;
     left: 0;
     padding: auto;
-    height: 65%;
+    height: 92%;
     width: 90%;
+}
+
+.block-result-image {
+    display:block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 8%;
+    height: 70%;
 }
 
 .result-image {
@@ -76,13 +107,56 @@ body {
     margin-right: auto;
 }
 
+.block-loading {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 79%;
+    height: 5%;
+}
+
+.progress-bar {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top:0;
+    background: rgba(167, 167, 167, 0.485);
+    height: 10%;
+    width: 60%;
+    margin: auto;
+    border-radius: 10px;
+}
+
+.proggres-bar_line {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top:0;
+    background: linear-gradient(90deg, #9b0b0b, #bd5e1f, #b6c517, #2fff00);
+    transition: 0.5s ease;
+}
+
+/* .proggres-bar_line:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 0;
+    height: 100%;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+    animation: load 5s infinite;
+  }
+   */
+
+
 .footer {
     position: fixed;
     left: 0;
-    bottom: 0;
+    bottom: 2%;
     right: 0;
-    /* display: flex; */
-    /* background-color: #4676d709; */
 }
 
 header {
@@ -153,5 +227,4 @@ header {
     z-index: 3;
     position: absolute;
     display: block;
-    /* width: 20%; */
 }

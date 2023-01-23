@@ -1,6 +1,6 @@
 from fastapi import FastAPI, WebSocket
 from neural_network import run_style_transfer
-from PIL import Image
+from PIL import Image, ImageOps
 
 import base64
 import io
@@ -12,6 +12,7 @@ def decode_image(str):
     image = io.BytesIO(base64.urlsafe_b64decode(
         str.split(',')[1].replace("\n", "")))
     img = Image.open(image)
+    img = ImageOps.exif_transpose(img)
     print("decode successfully")
     return img
 
@@ -42,7 +43,7 @@ async def websocket_endpoint(websocket: WebSocket):
             img2 = decode_image(data['image2'])
 
             # function sends intermediate results
-            res = run_style_transfer(img1, img2, num_iterations=1001)
+            res = run_style_transfer(img1, img2, num_iterations=201)
             for i in res:
                 res_img = encode_image(i)
                 await websocket.send_text(res_img)

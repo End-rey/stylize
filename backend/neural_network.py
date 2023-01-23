@@ -29,7 +29,7 @@ def load_and_process_img(img):
 def deprocess_img(processed_img):
   x = processed_img.copy()
   if len(x.shape) == 4:
-    x = np.squeeze(x, 0)
+    x = np.squeeze(x, axis=0)
   assert len(x.shape) == 3, ("Input to deprocess image must be an image of "
                              "dimension [1, height, width, channel] or [height, width, channel]")
   if len(x.shape) != 3:
@@ -207,11 +207,11 @@ def run_style_transfer(content_img,
       best_loss = loss
       best_img = deprocess_img(init_image.numpy())
 
-    if i % 20 == 0:
-      plot_img = init_image.numpy()
-      plot_img = deprocess_img(plot_img)
-      yield  best_img
-      print(i, "operation is Done!")
+    # if i % 1 == 0:
+      # plot_img = init_image.numpy()
+      # plot_img = deprocess_img(plot_img)
+    yield  best_img
+    print(i, "operation is Done!")
   print('Total time: {:.4f}s'.format(time.time() - global_start))
   # initially, the function displayed the best photo at the very end of the work, 
   # but now it outputs intermediate results

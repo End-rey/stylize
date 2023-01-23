@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { ScrollableContainer } from "../components/ScrollableContainer";
-import { saveAs } from "file-saver"
+import { saveAs } from "file-saver";
+import { LoadingProgressBar } from "../components/LoadingProgressBar";
+import Resizer from "react-image-file-resizer";
 
 export default function MainPage() {
     const [img1, setImg1] = useState(null);
     const [img2, setImg2] = useState(null);
     const [ws, setWs] = useState(null);
     const [resultImage, setResultImage] = useState(null);
+    const [progress, setProgress] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     const headerButtons = ["Load Image", "Save"];
 
     const handleClick = () => {
+        var i = 0;
+
         if (img1 === null || img2 === null) {
             return 0;
         }
@@ -32,14 +38,22 @@ export default function MainPage() {
             console.log("[open] Соединение установлено");
             socket.send(JSON.stringify(tmp));
             console.log("images sends");
+            setIsLoading(true);
+            setProgress(0);
         };
 
         socket.onmessage = (event) => {
             console.log(`[message] Данные получены с сервера`);
             setResultImage("data:image/jpg;base64," + event.data);
+            i = i + 0.5;
+            setProgress(i);
+            if (i == 100) {
+                setIsLoading(false);
+            }
         };
 
         socket.onclose = function (event) {
+            setIsLoading(false);
             if (event.wasClean) {
                 console.log(
                     `[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`
@@ -57,19 +71,32 @@ export default function MainPage() {
     function encodeImageFileAsURL(img, element) {
         console.log(img, element);
         var file = element.target.files[0];
-        var reader = new FileReader();
-        reader.onloadend = function () {
-            let res = reader.result;
-            if (img == 1) {
-                console.log("img1");
-                setResultImage(res);
-                setImg1(res);
-            } else if (img == 2) {
-                console.log("img2");
-                setImg2(res);
-            }
-        };
-        reader.readAsDataURL(file);
+        try {
+            Resizer.imageFileResizer(
+              file,
+              3000,
+              4000,
+              "JPEG",
+              75,
+              0,
+              (uri) => {
+                console.log(uri);
+                if (img == 1) {
+                    console.log("img1");
+                    setResultImage(uri);
+                    setImg1(uri);
+                } else if (img == 2) {
+                    console.log("img2");
+                    setImg2(uri);
+                }
+              },
+              "base64",
+              1000,
+              1000
+            );
+          } catch (err) {
+            console.log(err);
+          }
     }
 
     const toDataURL = (url) =>
@@ -90,12 +117,6 @@ export default function MainPage() {
             setImg2(dataUrl);
         });
     };
-
-    const Index = () => {
-        const downloadImage = () => {
-          saveAs('image_url', 'image.jpg') // Put your image url here.
-        }
-      }
 
     return (
         <div>
@@ -120,24 +141,34 @@ export default function MainPage() {
                         </div>
                     </li>
                     <li className="nav-item2">
-                        <div className="nav-buttons" onClick={() => saveAs(resultImage, 'result.jpg')}>
-                            {headerButtons[1]} 
+                        <div
+                            className="nav-buttons"
+                            onClick={() => saveAs(resultImage, "result.jpg")}
+                        >
+                            {headerButtons[1]}
                         </div>
                     </li>
                 </ul>
             </header>
             <div className="result-button">
                 <button className="btnSocket" onClick={handleClick}>
-                    Stylize!
+                    <span>Stylize!</span>
                 </button>
             </div>
-            <div className="block-result-image">
-                {resultImage && (
-                    <img
-                        className="result-image"
-                        src={resultImage}
-                        alt="WebSocket Image"
-                    />
+            <div className="main-content">
+                <div className="block-result-image">
+                    {resultImage && (
+                        <img
+                            className="result-image"
+                            src={resultImage}
+                            alt="WebSocket Image"
+                        />
+                    )}
+                </div>
+                {isLoading && (
+                    <div className="block-loading">
+                        <LoadingProgressBar percents={progress} />
+                    </div>
                 )}
             </div>
             <footer className="footer">
