@@ -43,7 +43,7 @@ async def websocket_endpoint(websocket: WebSocket):
             img2 = decode_image(data['image2'])
 
             # function sends intermediate results
-            res = run_style_transfer(img1, img2, num_iterations=201)
+            res = run_style_transfer(img1, img2, num_iterations=100, content_weight=1e4)
             for i in res:
                 res_img = encode_image(i)
                 await websocket.send_text(res_img)

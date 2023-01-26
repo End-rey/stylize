@@ -15,11 +15,11 @@ export const ScrollableContainer = ({
 
     const listOfStyles = [
         { id: 1, name: "Scream", src: "..\\..\\images\\scream.jpg" },
-        { id: 2, name: "Anime", src: "..\\..\\images\\anime.jpg" },
+        // { id: 2, name: "Anime", src: "..\\..\\images\\anime.jpg" },
         { id: 3, name: "Comics", src: "..\\..\\images\\comics.jpg" },
         { id: 4, name: "Cubism", src: "..\\..\\images\\cubism.jpg" },
         { id: 5, name: "Disco", src: "..\\..\\images\\disco.jpg" },
-        { id: 6, name: "Graffiti", src: "..\\..\\images\\graffiti.jpg" },
+        // { id: 6, name: "Graffiti", src: "..\\..\\images\\graffiti.jpg" },
         {
             id: 7,
             name: "Impressionism",
@@ -27,7 +27,7 @@ export const ScrollableContainer = ({
         },
         { id: 8, name: "Mosaic", src: "..\\..\\images\\mosaic.jpg" },
         { id: 9, name: "Sepia", src: "..\\..\\images\\sepia.jpg" },
-        { id: 10, name: "Sketch", src: "..\\..\\images\\sketch.jpg" },
+        // { id: 10, name: "Sketch", src: "..\\..\\images\\sketch.jpg" },
         { id: 11, name: "Surrealism", src: "..\\..\\images\\surrealism.jpg" },
         { id: 12, name: "Van Gogh", src: "..\\..\\images\\van_gogh.jpeg" },
         { id: 13, name: "Waves", src: "..\\..\\images\\waves.jpg" },
